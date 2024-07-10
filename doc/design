@@ -1,0 +1,5 @@
+# 1: Idea: Create a program to parse data from .xlsx file about employees time tracking on different projects and form .xlsx file for particular project including all employees.
+
+    + 2: Create a class TimeTrackerParser to parse data from .xlsx and form .xlsx
+    + 3: Create a class XlsxManager to unify xlsx representation from url (google docs) and file
+    + 4: Connect classes TimeTrackerParser and XlsxManager into program
