@@ -13,3 +13,6 @@ Program to make project reports from timesheets.
 
 ## implemented
 by amasyaska
+
+## hours spent
+old + 1

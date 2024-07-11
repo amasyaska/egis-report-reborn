@@ -1,6 +1,6 @@
 CLASSES
 
-TimeTrackerParser
+TimesheetParser
     Attributes:
         
     Methods:
