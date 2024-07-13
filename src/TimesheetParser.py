@@ -15,13 +15,41 @@ class TimesheetParser:
         for filename in filenames:
             self.workbook_list.append(openpyxl.load_workbook(filename=filename)) # automatically raises FileNotFoundError if there is no such file
 
-    def get_report_by_project_name(project_name: str, project_pseudonyms: list[str]) -> dict[dict[str, float]]:
+    def get_report_by_project_name(self: TimesheetParser, project_name: str, project_pseudonyms: list[str]=[]) -> dict[dict[str, float]]:
         """
         :param project_name: string that represents project name in timesheet
         :param project_pseudonyms: list of pseudonyms that can be used as an alternative project name (mainly for legacy support)
         :returns report: report is a dictionary in format {section1: {employee1: hours, ...}, section2: {employee1: hours, ...}, ...}
         """
         report = dict()
+        for workbook in self.workbook_list:
+            for sheet in workbook:
+                try:
+                    row_start, column_start, row_end, column_end = self.find_timesheet_table_coordinates_by_sheet(sheet)
+                    project_number_column_number = 2 # currently column named "Project number" has number 2
+                    section_of_project_column_number = 3 # currently column named "Section of project" has number 3
+                    days_column_number = 1 # currently column named "Working days (%)" has number 1
+                    number_of_rows_in_table = row_end - row_start + 1
+                    for i in range(number_of_rows_in_table):
+                        if (sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value in [project_name] + project_pseudonyms):
+                            try: # tryng to add time if there is already existing record of the employee for the section
+#                                print(f"sheet: {sheet.title}, project: {project_name}, value: {sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value}")
+                                if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
+                                    report["section not given"][sheet.title] += sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
+                                else:
+                                    report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value][sheet.title] += sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
+                            except KeyError as ex:
+                                print(f"During adding working days, {ex} happened.")
+                                if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
+                                    report["section not given"] = dict()
+                                    report["section not given"][sheet.title] = sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
+                                else:
+                                    report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value] = dict()
+                                    report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value][sheet.title] = sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
+                        # print(f"project number: {sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value}")
+                except ValueError as ex:
+                    print(f"During generating report, {ex} happened.")
+        print(report)
 
     @staticmethod
     def find_timesheet_table_coordinates_by_sheet(sheet: openpyxl.worksheet.worksheet.Worksheet) -> tuple[int, int, int, int]:
@@ -55,8 +83,6 @@ class TimesheetParser:
                 if (cell.value.replace(" ", "").lower() == "Approval by the supervising person".replace(" ", "").lower()):
                     row_end = cell.row
         
-        print(f"row_start: {row_start}, column_start: {column_start}, row_end: {row_end}, column_end: {column_end}")
-
         if (row_start == None or column_start == None):  # if start coordinates of table hadn't been found
             raise ValueError(f"Start of timesheet table hadn't been found. Sheet: {sheet.title}")
         
@@ -67,8 +93,6 @@ class TimesheetParser:
 
 if __name__ == "__main__":
     obj = TimesheetParser(["test_3_month.xlsx"])
-    for sheet in obj.workbook_list[0]:
-        try:
-            print(TimesheetParser.find_timesheet_table_coordinates_by_sheet(sheet))
-        except Exception as ex:
-            print(f"{ex} happened")
+    obj.get_report_by_project_name("")
+#    except Exception as ex:
+ #       print(f"{ex} happened")
