@@ -94,6 +94,6 @@ class TimesheetParser:
 
 if __name__ == "__main__":
     obj = TimesheetParser(["test_3_month.xlsx"])
-    obj.get_report_by_project_name("Dimmer")
+    obj.get_report_by_project_name("")
 #    except Exception as ex:
  #       print(f"{ex} happened")
