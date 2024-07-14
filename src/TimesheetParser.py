@@ -1,5 +1,8 @@
 from __future__ import annotations
+import logging
 import openpyxl
+
+logging.basicConfig(filename="TimesheetParser.log", level=logging.DEBUG, format='%(asctime)s :: %(levelname)s :: %(message)s')
 
 class TimesheetParser:
     """
@@ -31,24 +34,22 @@ class TimesheetParser:
                     days_column_number = 1 # currently column named "Working days (%)" has number 1
                     number_of_rows_in_table = row_end - row_start + 1
                     for i in range(number_of_rows_in_table):
-                        if (sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value in [project_name] + project_pseudonyms):
+                        if (sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value in [project_name] + project_pseudonyms):    # if this cell is under "Project number" column
                             try: # tryng to add time if there is already existing record of the employee for the section
-#                                print(f"sheet: {sheet.title}, project: {project_name}, value: {sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value}")
                                 if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
                                     report["section not given"][sheet.title] += sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                                 else:
                                     report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value][sheet.title] += sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                             except KeyError as ex:
-                                print(f"During adding working days, {ex} happened.")
+                                logging.info(f"During adding working days, {ex} happened.")
                                 if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
                                     report["section not given"] = dict()
                                     report["section not given"][sheet.title] = sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                                 else:
                                     report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value] = dict()
                                     report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value][sheet.title] = sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
-                        # print(f"project number: {sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value}")
-                except ValueError as ex:
-                    print(f"During generating report, {ex} happened.")
+                except ValueError as ex:    # catching exceptions for cases when function was not able to determine timesheet table coordinates
+                    logging.info(f"During generating report, {ex} happened.")
         print(report)
 
     @staticmethod
@@ -93,6 +94,6 @@ class TimesheetParser:
 
 if __name__ == "__main__":
     obj = TimesheetParser(["test_3_month.xlsx"])
-    obj.get_report_by_project_name("")
+    obj.get_report_by_project_name("Dimmer")
 #    except Exception as ex:
  #       print(f"{ex} happened")
