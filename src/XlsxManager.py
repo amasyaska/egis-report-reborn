@@ -30,6 +30,22 @@ class XlsxManager:
             file.write(buff)
         return f"{docs_id}.xlsx"
 
+    @staticmethod
+    def get_xlsx_file_from_local_file(local_filepath: str, filename: str) -> str:
+        """
+        Saves local file from filepath to resources directory with given filename
+        :param filepath: absolute/relative path to local file
+        :param filename: name to save file in resources directory
+        :returns filename: as a result of an execution, a new file called *filename* (docs id) will be created in resources directory
+        """
+        with open(local_filepath, "rb") as local_f:
+            basepath = os.path.dirname(__file__)                            # get absolute path to this file
+            filepath = os.path.abspath(os.path.join(basepath, "..", "resources", filename))
+            with open(filepath, "wb") as f:
+                f.write(local_f.read())
+        return filename
+
 if __name__ == "__main__":
     obj = XlsxManager()
-    print(obj.get_xlsx_file_from_url_google_docs(input("Enter url: ")))
+#    print(obj.get_xlsx_file_from_url_google_docs(input("Enter url: ")))
+    print(obj.get_xlsx_file_from_local_file(input("Enter local file: "), input("Enter filename")))
