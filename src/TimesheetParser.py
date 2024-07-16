@@ -1,5 +1,7 @@
 from __future__ import annotations
 import logging
+import os
+
 import openpyxl
 
 logging.basicConfig(filename="TimesheetParser.log", level=logging.DEBUG, format='%(asctime)s :: %(levelname)s :: %(message)s')
@@ -36,6 +38,7 @@ class TimesheetParser:
                     for i in range(number_of_rows_in_table):
                         if (sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value in [project_name] + project_pseudonyms):    # if this cell is under "Project number" column
                             try: # tryng to add time if there is already existing record of the employee for the section
+                                print(f"section: {sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value}, employee: {sheet.title}, report: {report}")
                                 if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
                                     report["section not given"][sheet.title] += sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                                 else:
@@ -43,14 +46,16 @@ class TimesheetParser:
                             except KeyError as ex:
                                 logging.info(f"During adding working days, {ex} happened.")
                                 if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
-                                    report["section not given"] = dict()
+                                    if (not "section not given" in report.keys()):
+                                        report["section not given"] = dict()
                                     report["section not given"][sheet.title] = sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                                 else:
-                                    report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value] = dict()
+                                    if (not sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value in report.keys()):
+                                        report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value] = dict()
                                     report[sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value][sheet.title] = sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                 except ValueError as ex:    # catching exceptions for cases when function was not able to determine timesheet table coordinates
                     logging.info(f"During generating report, {ex} happened.")
-        print(report)
+        return report
 
     @staticmethod
     def find_timesheet_table_coordinates_by_sheet(sheet: openpyxl.worksheet.worksheet.Worksheet) -> tuple[int, int, int, int]:
@@ -92,8 +97,36 @@ class TimesheetParser:
 
         return (row_start, column_start, row_end, column_end)
 
+    @staticmethod
+    def write_report_to_xlsx_file(report: dict[dict[str, float]], filename: str) -> None:
+        """
+        method to write report dict to .xlsx file named filename
+        :param report: report is a dictionary in format {section1: {employee1: hours, ...}, section2: {employee1: hours, ...}, ...}
+        """
+        basepath = os.path.dirname(__file__)                            # get absolute path to this file
+        filepath = os.path.abspath(os.path.join(basepath, "..", "resources", "output", f"{filename}.xlsx"))
+        workbook = openpyxl.Workbook()
+        workbook.remove(workbook["Sheet"])  # remove standard workbook sheet "Sheet"
+        sheet_name = "Fact"
+        workbook.create_sheet(sheet_name)
+
+        table_begin_row = 4
+        table_begin_column = 2
+
+        counter = 0     # to count rows
+        for section in report.keys():
+            workbook[sheet_name].cell(row=(table_begin_row + counter), column=table_begin_column).value = section
+            for employee in report[section]:
+                workbook[sheet_name].cell(row=(table_begin_row + counter), column=(table_begin_column + 1)).value = employee
+                workbook[sheet_name].cell(row=(table_begin_row + counter), column=(table_begin_column + 2)).value = report[section][employee]
+                counter += 1
+
+        workbook.save(filepath)
+
 if __name__ == "__main__":
     obj = TimesheetParser(["test_3_month.xlsx"])
-    obj.get_report_by_project_name("")
+    report = obj.get_report_by_project_name("Issyk-Kul 1. ДУ1")
+    print(report)
+    obj.write_report_to_xlsx_file(report, "test")
 #    except Exception as ex:
  #       print(f"{ex} happened")
