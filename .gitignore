@@ -9,4 +9,7 @@ resources
 *.xlsx
 *.log
 
+*.db
+*.sqlite3
+
 settings.py
