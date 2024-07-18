@@ -8,3 +8,5 @@ resources
 .venv
 *.xlsx
 *.log
+
+settings.py
