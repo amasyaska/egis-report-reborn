@@ -5,6 +5,7 @@
     </head>
     <body>
         <form method="POST">
+            {% csrf_token %}
             <label for="xlsx_files_amount">Enter amount of xlsx files to get report: </label>
             <input type="text" name="xlsx_files_amount">
             <br><br>
