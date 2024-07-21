@@ -126,7 +126,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+basepath = os.path.dirname(__file__)                            # get absolute path to this file
+filepath = os.path.abspath(os.path.join(basepath, "static"))
+
+STATIC_ROOT = filepath
+
+basepath = os.path.dirname(__file__)                            # get absolute path to this file
+filepath = os.path.abspath(os.path.join(basepath, "..", "egis_report", "static"))
+
+STATICFILES_DIRS = [
+filepath
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
