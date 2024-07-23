@@ -1,7 +1,7 @@
 function insert_file_inputs()
 {
     let field_amount = document.getElementById("xlsx_files_amount").value
-    document.body.innerHTML = ""
+    document.body.removeChild(document.getElementById("content_vertical_center"))
     let form = document.createElement("form")
     form.method = "POST"
 

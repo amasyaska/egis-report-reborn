@@ -4,13 +4,28 @@
         <script src="static/egis_report/js/index.js"></script>
     </head>
     <body id="body">
-        <div class="label_and_input_and_button_wrapper">
-            <label class="file_amount_input_label">Enter amount of xlsx files to get report: </label>
-            <br>
-            <input class="input_field" type="text" id="xlsx_files_amount">
-            <br>
-            <div class="next_button_wrapper">
-                <button class="next_button" id="file_amount_button" onclick="insert_file_inputs()">Next</button>
+        <div class="menu">
+            <div class="logo">
+               <a href=""><img src="static/egis_report/media/logo.png" alt="Logo" style="max-height: 100%; max-width: 100%;"></a>
+            </div>
+            <div class="non_logo_menu">
+                <div class="menu_item">
+                    <a class="menu_item" href="about">About</a>
+                </div>
+                <div class="menu_item">
+                    <a class="menu_item" href="about">How to use</a>
+                </div>
+            </div>
+        </div>
+        <div class="content_vertical_center" id="content_vertical_center">
+            <div class="label_and_input_and_button_wrapper">
+                <label class="file_amount_input_label">Enter amount of xlsx files to get report: </label>
+                <br>
+                <input class="input_field" type="text" id="xlsx_files_amount">
+                <br>
+                <div class="next_button_wrapper">
+                    <button class="next_button" id="file_amount_button" onclick="insert_file_inputs()">Next</button>
+                </div>
             </div>
         </div>
         <br><br>
