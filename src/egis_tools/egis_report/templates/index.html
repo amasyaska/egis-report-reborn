@@ -1,15 +1,18 @@
 <html>
     <head>
-        <style>
-        </style>
+        <link rel="stylesheet" href="static/egis_report/css/index.css" type="text/css">
+        <script src="static/egis_report/js/index.js"></script>
     </head>
-    <body>
-        <form method="POST">
-            {% csrf_token %}
-            <label for="xlsx_files_amount">Enter amount of xlsx files to get report: </label>
-            <input type="text" name="xlsx_files_amount">
-            <br><br>
-            <input type="submit">
-        </form>
+    <body id="body">
+        <div class="label_and_input_and_button_wrapper">
+            <label class="file_amount_input_label">Enter amount of xlsx files to get report: </label>
+            <br>
+            <input class="input_field" type="text" id="xlsx_files_amount">
+            <br>
+            <div class="next_button_wrapper">
+                <button class="next_button" id="file_amount_button" onclick="insert_file_inputs()">Next</button>
+            </div>
+        </div>
+        <br><br>
     </body>
 </html>
