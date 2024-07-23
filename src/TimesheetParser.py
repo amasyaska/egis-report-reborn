@@ -124,9 +124,11 @@ class TimesheetParser:
         workbook.save(filepath)
 
 if __name__ == "__main__":
-    obj = TimesheetParser(["test_3_month.xlsx"])
-    report = obj.get_report_by_project_name("Issyk-Kul 1. ДУ1")
-    print(report)
-    obj.write_report_to_xlsx_file(report, "test")
+    filename = "RK.xlsx"
+    basepath = os.path.dirname(__file__)                            # get absolute path to this file
+    filepath = os.path.abspath(os.path.join(basepath, "..", "resources", filename))
+    obj = TimesheetParser([filepath])
+    report = obj.get_report_by_project_name(" lubricant ")
+    obj.write_report_to_xlsx_file(report, "test_2")
 #    except Exception as ex:
  #       print(f"{ex} happened")
