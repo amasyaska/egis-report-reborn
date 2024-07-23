@@ -38,7 +38,6 @@ class TimesheetParser:
                     for i in range(number_of_rows_in_table):
                         if (sheet.cell(row=(row_start + i), column=(column_start + project_number_column_number)).value in [project_name] + project_pseudonyms):    # if this cell is under "Project number" column
                             try: # tryng to add time if there is already existing record of the employee for the section
-                                print(f"section: {sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value}, employee: {sheet.title}, report: {report}")
                                 if (sheet.cell(row=(row_start + i), column=(column_start + section_of_project_column_number)).value == None):
                                     report["section not given"][sheet.title] += sheet.cell(row=(row_start + i), column=(column_start + days_column_number)).value
                                 else:

@@ -34,7 +34,15 @@ def index(request):
             xlsx_filenames_list.append(filepath)
         print(f"getting report for {request.POST['project_name']}\nfor: {url_list} and {xlsx_filenames_list}")
         timesheet_parser = TimesheetParser(xlsx_filenames_list)
-        timesheet_parser.write_report_to_xlsx_file(timesheet_parser.get_report_by_project_name(request.POST['project_name']), "test_web")
+        filename = "test_web2"
+        timesheet_parser.write_report_to_xlsx_file(timesheet_parser.get_report_by_project_name(request.POST['project_name']), filename)
+        basepath = os.path.dirname(__file__)                            # get absolute path to this file
+        filepath = os.path.abspath(os.path.join(basepath, "..", "..", "..", "resources", "output", f"{filename}.xlsx"))
+        # file download
+        with open(filepath, "rb") as f:
+            response = HttpResponse(f.read(), content_type="application/vnd.ms-excel")
+            response["Content-Disposition"] = f"attachment; filename={filename}"
+            return response
 
 
         
