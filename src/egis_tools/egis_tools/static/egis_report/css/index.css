@@ -47,7 +47,7 @@ body {
     background-color: #333333;
     color: #E7E7E8;
     width: 100%;
-    border: 5px solid #04AA6D;
+    border: 5px solid #ABC104;
     font-size: 20pt;
 }
 
@@ -93,4 +93,25 @@ body {
     align-items: center;
     width: 100%;
     height: 75%;
+}
+
+.loader_wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.loader {
+    border: 20px solid #333333; 
+    border-top: 20px solid #ABC104;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

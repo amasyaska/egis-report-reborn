@@ -40,3 +40,5 @@ function insert_file_inputs()
 
     document.body.appendChild(form)
 }
+
+window.onload = function() {document.getElementById("loader").style.display = "block"}

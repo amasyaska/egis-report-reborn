@@ -2,7 +2,13 @@ function insert_file_inputs()
 {
     let field_amount = document.getElementById("xlsx_files_amount").value
     document.body.removeChild(document.getElementById("content_vertical_center"))
+    let file_upload_form_wrapper = document.createElement("div")
+    file_upload_form_wrapper.setAttribute("id", "file_upload_form_wrapper")
+    let loader = document.createElement("div")
+    loader.setAttribute("class", "loader")
+    loader.setAttribute("id", "loader")
     let form = document.createElement("form")
+    form.setAttribute("id", "file_upload_form")
     form.method = "POST"
 
     for (i = 0; i < field_amount; i++)
@@ -33,10 +39,26 @@ function insert_file_inputs()
     let button_get_report = document.createElement("input")
     button_get_report.type = "submit"
     button_get_report.value = "Get report!"
+    button_get_report.setAttribute("onclick", "show_loader_form()")
     button_get_report.setAttribute("class", "next_button")
     form.appendChild(document.createElement("br"))
     form.appendChild(document.createElement("br"))
     form.appendChild(button_get_report)
 
-    document.body.appendChild(form)
+//    document.body.appendChild(loader)
+//    hide_loader_form()
+    file_upload_form_wrapper.appendChild(form)
+    document.body.appendChild(file_upload_form_wrapper)
 }
+
+function show_loader_form() {
+    document.getElementById("file_upload_form").style.display = "none"
+    document.getElementById("loader").style.display = "block"
+}
+
+function hide_loader_form() {
+    document.getElementById("file_upload_form").style.display = "block"
+    document.getElementById("loader").style.display = "none"
+}
+
+window.addEventListener("load", hide_loader_form)
