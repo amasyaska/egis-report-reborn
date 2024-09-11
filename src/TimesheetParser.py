@@ -119,6 +119,7 @@ class TimesheetParser:
                 workbook[sheet_name].cell(row=(table_begin_row + counter), column=(table_begin_column + 1)).value = employee
                 workbook[sheet_name].cell(row=(table_begin_row + counter), column=(table_begin_column + 2)).value = report[section][employee]
                 counter += 1
+            counter += 1
 
         workbook.save(filepath)
 

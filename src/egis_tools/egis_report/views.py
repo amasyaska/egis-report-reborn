@@ -23,6 +23,7 @@ def index(request):
     elif (request.method == "POST"):
         xlsx_files_amount = int(request.POST['xlsx_files_amount'])
         url_list = list()
+        print(f"request.POST: {request.POST}")
         for i in range(xlsx_files_amount):
             url_list.append(request.POST[f'xlsx_file_{i}'])
         xlsx_manager = XlsxManager()
@@ -31,10 +32,10 @@ def index(request):
             filename = XlsxManager.get_xlsx_file_from_url_google_docs(url)
             basepath = os.path.dirname(__file__)                            # get absolute path to this file
             filepath = os.path.abspath(os.path.join(basepath, "..", "..", "..", "resources", filename))
-            xlsx_filenames_list.append(filepath)
+            xlsx_filenames_list.append(filepath) 
         print(f"getting report for {request.POST['project_name']}\nfor: {url_list} and {xlsx_filenames_list}")
         timesheet_parser = TimesheetParser(xlsx_filenames_list)
-        filename = "test_web2"
+        filename = "report"
         timesheet_parser.write_report_to_xlsx_file(timesheet_parser.get_report_by_project_name(request.POST['project_name']), filename)
         basepath = os.path.dirname(__file__)                            # get absolute path to this file
         filepath = os.path.abspath(os.path.join(basepath, "..", "..", "..", "resources", "output", f"{filename}.xlsx"))

@@ -115,3 +115,53 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+#file_upload_form {
+    width: 80%;
+}
+
+#file_upload_form_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5%;
+}
+
+.file_upload_field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.file_upload_url {
+    width: 70%;
+    background-color: #333333;
+    color: #E7E7E8;
+    border: 5px solid #ABC104;
+    font-size: 20pt;
+}
+
+#project_name_input {
+    width: 70%;
+    background-color: #333333;
+    color: #E7E7E8;
+    border: 5px solid #ABC104;
+    font-size: 20pt;   
+}
+
+#project_pseudonyms_name_input {
+    width: 70%;
+    background-color: #333333;
+    color: #E7E7E8;
+    border: 5px solid #ABC104;
+    font-size: 20pt;      
+}
+
+.file_upload_select {
+    width: 10%;
+    background-color: #333333;
+    color: #ABC104;
+    border: 3px solid #ABC104;
+}
+
