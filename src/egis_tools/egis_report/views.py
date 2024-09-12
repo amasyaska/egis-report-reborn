@@ -2,7 +2,9 @@ import os
 import sys
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from django.views import View
 
 basepath = os.path.dirname(__file__)                            # get absolute path to this file
 filepath = os.path.abspath(os.path.join(basepath, "..", ".."))
@@ -12,7 +14,21 @@ from . import functions
 from XlsxManager import XlsxManager
 from TimesheetParser import TimesheetParser
 
-# Create your views here.
+# VIEWS
+
+class Index(View):
+
+    def get(self, request):
+        basepath = os.path.dirname(__file__)                            # get absolute path to this file
+        filepath = os.path.abspath(os.path.join(basepath, "templates", "index.html"))
+        with open(filepath, 'r') as f:
+            return HttpResponse(f.read())
+
+    def post(self, request):
+        xlsx_files_amount = int(request.POST['xlsx_files_amount'])
+        return redirect(f'/report?amount={xlsx_files_amount}')
+
+
 
 def index(request):
     if (request.method == "GET"):

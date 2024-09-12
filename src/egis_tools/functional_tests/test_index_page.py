@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 class TestIndexPage(StaticLiveServerTestCase):
@@ -31,6 +32,5 @@ class TestIndexPage(StaticLiveServerTestCase):
         file_amount_input.send_keys("ads")
         file_amount_button.click()
 
-        incorrect_input_label = self.webdriver.find_element(By.XPATH, '/html/body/div[2]/div/label')
-        self.assertEqual(incorrect_input_label.text, "incorrect input")
+        self.assertRaises(NoSuchElementException, self.webdriver.find_element, By.XPATH, '/html/body/div[2]/div/label')
 
