@@ -22,6 +22,8 @@ body {
 }
 
 .next_button_wrapper {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 10%;
 }
@@ -165,3 +167,27 @@ body {
     border: 3px solid #ABC104;
 }
 
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number].integer_input_field::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    background-color: #333333;
+    color: #E7E7E8;
+    width: 100%;
+    height: 20%;
+    border: 5px solid #ABC104;
+    font-size: 20pt;
+}
+
+/* Firefox */
+input[type=number].integer_input_field {
+    -moz-appearance: textfield;
+    background-color: #333333;
+    color: #E7E7E8;
+    width: 100%;
+    height: 20%;
+    border: 5px solid #ABC104;
+    font-size: 20pt;
+}
