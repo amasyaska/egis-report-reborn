@@ -15,13 +15,17 @@ body {
 
 .label_and_input_and_button_wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 40%;
     align-items: center;
     margin: 0 auto;
     width: 30%;
+    height: 80%;
 }
 
 .next_button_wrapper {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 10%;
 }
@@ -31,6 +35,7 @@ body {
     background-color: #ABC104;
     color: #E7E7E8;
     padding: 10px 20px;
+    width: 20vw;
 }
 
 .file_amount_input_label {
@@ -46,7 +51,7 @@ body {
 .url_input_field {
     background-color: #333333;
     color: #E7E7E8;
-    width: 100%;
+    width: 30vw;
     border: 5px solid #ABC104;
     font-size: 20pt;
 }
@@ -93,6 +98,7 @@ body {
     align-items: center;
     width: 100%;
     height: 75%;
+    padding: 0%;
 }
 
 .loader_wrapper {
@@ -131,7 +137,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .file_upload_url {
@@ -165,3 +171,42 @@ body {
     border: 3px solid #ABC104;
 }
 
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number].integer_input_field::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    background-color: #333333;
+    color: #E7E7E8;
+    width: 100%;
+    height: 20%;
+    border: 5px solid #ABC104;
+    font-size: 20pt;
+}
+
+/* Firefox */
+input[type=number].integer_input_field {
+    -moz-appearance: textfield;
+    background-color: #333333;
+    color: #E7E7E8;
+    width: 100%;
+    height: 20%;
+    border: 5px solid #ABC104;
+    font-size: 20pt;
+}
+
+.file_upload_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10%;
+    width: 75vw;
+    margin: 0%;
+}
+
+.file_upload_button {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}

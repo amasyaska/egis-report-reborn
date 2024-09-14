@@ -1,3 +1,6 @@
+const event = new Event("end_of_load")
+document.body.addEventListener(event)
+
 function insert_file_inputs()
 {
     let field_amount = document.getElementById("xlsx_files_amount").value
@@ -7,6 +10,7 @@ function insert_file_inputs()
     let loader = document.createElement("div")
     loader.setAttribute("class", "loader")
     loader.setAttribute("id", "loader")
+    loader.style.display = "none"
     let form = document.createElement("form")
     form.setAttribute("id", "file_upload_form")
     form.method = "POST"
@@ -24,12 +28,15 @@ function insert_file_inputs()
         let input = document.createElement("input")
         input.setAttribute("class", "file_upload_url")
         input.setAttribute("type", "text")
-        input.setAttribute("name", "xlsx_file" + i)
+        input.setAttribute("name", "xlsx_file_" + i)
         // elem.innerHTML += '<input class="file_upload_url" type="text" name="xlsx_file_' + i + '">'
         let select = document.createElement("select")
         select.setAttribute("class", "file_upload_select")
         select.innerHTML = '<option value="URL">URL</option><option value="File">File</option>'
         // elem.innerHTML += '<select class="file_upload_select"><option value="URL">URL</option><option value="File">File</option></select>'
+        // adding event listener to change field when select value changes
+        select.addEventListener("change", change_file_upload_field)
+
         elem.appendChild(label)
         elem.appendChild(input)
         elem.appendChild(select)
@@ -69,6 +76,7 @@ function insert_file_inputs()
 //    hide_loader_form()
     file_upload_form_wrapper.appendChild(form)
     document.body.appendChild(file_upload_form_wrapper)
+    document.body.appendChild(loader)
 }
 
 function show_loader_form() {
@@ -81,4 +89,7 @@ function hide_loader_form() {
     document.getElementById("loader").style.display = "none"
 }
 
-window.addEventListener("load", hide_loader_form)
+window.onload = hide_loader_form
+
+function change_file_upload_field() {
+}
