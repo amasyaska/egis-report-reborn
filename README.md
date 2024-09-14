@@ -15,4 +15,4 @@ Program to make project reports from timesheets.
 by amasyaska
 
 ## time spent
-old + 20h 25min
+old + 20h 40min

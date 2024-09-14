@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 basepath = os.path.dirname(__file__)                            # get absolute path to this file
+
 filepath = os.path.abspath(os.path.join(basepath, "..", ".."))
 sys.path.append(filepath)     # to be able to import top-level packages
 
@@ -19,14 +20,27 @@ from TimesheetParser import TimesheetParser
 class Index(View):
 
     def get(self, request):
-        basepath = os.path.dirname(__file__)                            # get absolute path to this file
         filepath = os.path.abspath(os.path.join(basepath, "templates", "index.html"))
         with open(filepath, 'r') as f:
             return HttpResponse(f.read())
 
     def post(self, request):
         xlsx_files_amount = int(request.POST['xlsx_files_amount'])
-        return redirect(f'/report?amount={xlsx_files_amount}')
+        return redirect(f'/report/?amount={xlsx_files_amount}')
+
+
+class Report(View):
+
+    def get(self, request):
+        amount = request.GET.get("amount", None)
+        if (amount.isnumeric() and int(amount) >= 1):    # makes sure that amount parameter is integer and in correct range
+            filepath = os.path.abspath(os.path.join(basepath, "templates", "report.html"))
+            with open(filepath, 'r') as f:
+                return HttpResponse(f.read())
+        
+        response = HttpResponse()
+        response.status_code = 400
+        return response
 
 
 
