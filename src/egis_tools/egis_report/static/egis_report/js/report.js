@@ -29,6 +29,7 @@ window.onload = function ()
         let input = document.createElement("input")
         input.setAttribute("class", "url_input_field")
         input.setAttribute("type", "text")
+        input.required = true;
         input.setAttribute("name", "xlsx_file_" + i)
         let select = document.createElement("select")
         select.setAttribute("class", "file_upload_select")
