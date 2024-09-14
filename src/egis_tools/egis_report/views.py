@@ -33,7 +33,7 @@ class Report(View):
 
     def get(self, request):
         amount = request.GET.get("amount", None)
-        if (amount.isnumeric() and int(amount) >= 1):    # makes sure that amount parameter is integer and in correct range
+        if (amount and amount.isnumeric() and int(amount) >= 1):    # makes sure that amount parameter is integer and in correct range
             filepath = os.path.abspath(os.path.join(basepath, "templates", "report.html"))
             with open(filepath, 'r') as f:
                 return HttpResponse(f.read())
