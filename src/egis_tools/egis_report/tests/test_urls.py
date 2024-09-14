@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 from django.test import Client
 from django.urls import reverse, resolve
-from egis_report.views import index, report
+from egis_report.views import Index, Report
 
 
 class TestUrls(SimpleTestCase):
@@ -10,7 +10,7 @@ class TestUrls(SimpleTestCase):
         self.assertEqual(reverse("main"), "/")
 
     def test_main_page_resolve(self):
-        self.assertIs(resolve("/").func, index)
+        self.assertIs(resolve("/").func.view_class, Index)
     
     def test_GET_main_page(self):
         client = Client()
