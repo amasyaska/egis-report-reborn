@@ -44,3 +44,47 @@ window.onload = function ()
         form.insertBefore(elem, first_file_upload_field);
     }
 }
+
+
+function changeListener(event)
+{
+    var target_elem = event.target
+    if (target_elem.nodeName == "SELECT")
+    {
+        console.log("its select" + target_elem)
+        if (target_elem.value == "File")
+        {
+            var url_input_field = target_elem.parentNode.getElementsByClassName("url_input_field")[0]
+            url_input_field.setAttribute("type", "file")
+        }
+        else if (target_elem.value == "URL")
+        {
+            var url_input_field = target_elem.parentNode.getElementsByClassName("url_input_field")[0]
+            url_input_field.setAttribute("type", "text")
+        }
+        else
+        {
+            throw "Incorrect select value"
+        }
+    }
+}
+
+addEventListener("change", changeListener)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
